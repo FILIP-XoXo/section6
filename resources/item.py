@@ -86,7 +86,9 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
-        return {'items': [x.json() for x in ItemModel.query.all()]}
+        return [x.json() for x in ItemModel.query.all()]
+        #return {'items': [x.json() for x in ItemModel.query.all()]}
+
         # vrati vsetky data v databaze
 
 
