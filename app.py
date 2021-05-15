@@ -7,7 +7,6 @@ from security import authenticate, identity
 from resources.user import UserRegister
 from resources.item import Item, ItemList
 from resources.store import Store,StoreList
-from db import db
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -21,9 +20,7 @@ app.secret_key = 'longcomplicatedsecuritykey'
 api = Api(app)
 
 # vytvorenie vsetkych tabuliek do suboru data.db pred vykonanim prveho requestu
-@app.before_first_request
-def create_tables():
-    db.create_all()
+
 
 jwt = JWT(app, authenticate, identity)
 #jwt vytvori novy endpoint /auth (pri volani endpointu posielame username a password)
@@ -41,5 +38,6 @@ api.add_resource(UserRegister, '/register')
 # ostatne subory z ktorych su importovane metody,triedy su oznacene inak
 # pri importe z app.py tak zabranime jeho spusteniu
 if __name__ == '__main__':
+    from db import db
     db.init_app(app)
     app.run(port=5000, debug=True)
