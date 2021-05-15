@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -9,7 +11,12 @@ from resources.item import Item, ItemList
 from resources.store import Store,StoreList
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+# DATABASE_URL predstavuje premennu(variable), ktoru pre nas vytvoril Heroku
+# fukcia vyziada v operacnom systeme - environment variable
+# prvy parameter predstavuje premennu, s prioritou prveho citania, v pripade ak
+# premenna DATABASE_URL sa nenachadza v systeme(pretoze nie je nastavena), vyuzijeme defaultnu hodnotu, 
+# ktoru zastupuje druhy parameter ako SQLite databaza urcena na lokalne testovanie
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # v pripade ak objekt bol zmeneny ale neulozeny do databazy,
 # extension SQLALCHEMY sleduje každú zmenu, ktora nastane v SQL ALCHEMY session
