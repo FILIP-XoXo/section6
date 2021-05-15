@@ -1,4 +1,5 @@
 import os
+import re
 
 from flask import Flask
 from flask_restful import Api
@@ -11,7 +12,15 @@ from resources.item import Item, ItemList
 from resources.store import Store,StoreList
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+
+
+uri = os.getenv("DATABASE_URL")  # or other relevant config var
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+# rest of connection code using the connection string `uri`
+
+
 # DATABASE_URL predstavuje premennu(variable), ktoru pre nas vytvoril Heroku
 # fukcia vyziada v operacnom systeme - environment variable
 # prvy parameter predstavuje premennu, s prioritou prveho citania, v pripade ak
