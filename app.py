@@ -13,11 +13,6 @@ from flask_jwt import JWT
 
 from db import db
 
-from security import authenticate, identity
-
-from resources.user import UserRegister
-from resources.item import Item, ItemList
-from resources.store import Store,StoreList
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
@@ -46,8 +41,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'longcomplicatedsecuritykey'
 api = Api(app)
 
-# vytvorenie vsetkych tabuliek do suboru data.db pred vykonanim prveho requestu
-jwt = JWT(app, authenticate, identity)
+
 
 class User(db.Model):
     __tablename__ = 'users'
