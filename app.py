@@ -1,7 +1,7 @@
 import os
 import re
 
-import base64
+
 
 from flask import Flask, request, jsonify, make_response
 from flask_restful import Api
@@ -48,9 +48,9 @@ api = Api(app)
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    public_id = db.Column(db.String(100), unique=True)
-    name = db.Column(db.String(60))
-    password = db.Column(db.String(150))
+    public_id = db.Column(db.String(240), unique=True)
+    name = db.Column(db.String(240))
+    password = db.Column(db.String(240))
     admin = db.Column(db.Boolean)
 
 class Todo(db.Model):
@@ -147,10 +147,9 @@ def get_one_user(current_user, public_id):
 def create_user():
     data = request.get_json()
 
-    hashed_password = generate_password_hash(data['password'], method='sha256')
-    b = base64.b64decode(hashed_password)
-    final_password = b.decode("utf-8")
-    new_user = User(public_id=str(uuid.uuid4()), name=data['name'], password=final_password, admin=True)
+    hashed_password = generate_password_hash(data['password'])
+
+    new_user = User(public_id=str(uuid.uuid4()), name=data['name'], password=hashed_password, admin=True)
     db.session.add(new_user)
     db.session.commit()
 
