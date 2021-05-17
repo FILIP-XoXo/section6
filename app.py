@@ -1,6 +1,8 @@
 import os
 import re
 
+import base64
+
 from flask import Flask, request, jsonify, make_response
 from flask_restful import Api
 import uuid #generate random puclic id
