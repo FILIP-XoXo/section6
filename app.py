@@ -147,9 +147,9 @@ def get_one_user(current_user, public_id):
 def create_user():
     data = request.get_json()
 
-    hashed_password = generate_password_hash(data['password'])
+    #hashed_password = generate_password_hash(data['password'], method='sha256')
 
-    new_user = User(public_id=str(uuid.uuid4()), name=data['name'], password=hashed_password, admin=True)
+    new_user = User(public_id=str(uuid.uuid4()), name=data['name'], password=data['password'], admin=True)
     db.session.add(new_user)
     db.session.commit()
 
