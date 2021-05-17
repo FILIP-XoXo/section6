@@ -46,9 +46,9 @@ api = Api(app)
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    public_id = db.Column(db.String(110), unique=True)
+    public_id = db.Column(db.String(100), unique=True)
     name = db.Column(db.String(60))
-    password = db.Column(db.String(100))
+    password = db.Column(db.String(150))
     admin = db.Column(db.Boolean)
 
 class Todo(db.Model):
@@ -146,7 +146,8 @@ def create_user():
     data = request.get_json()
 
     hashed_password = generate_password_hash(data['password'], method='sha256')
-    new_user = User(public_id=str(uuid.uuid4()), name=data['name'], password=hashed_password, admin=True)
+    final_password = hashed_password.decode("utf-8", "ignore")
+    new_user = User(public_id=str(uuid.uuid4()), name=data['name'], password=final_password, admin=True)
     db.session.add(new_user)
     db.session.commit()
 
