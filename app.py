@@ -146,7 +146,8 @@ def create_user():
     data = request.get_json()
 
     hashed_password = generate_password_hash(data['password'], method='sha256')
-    final_password = hashed_password.decode("utf-8", "ignore")
+    b = base64.b64decode(hashed_password)
+    final_password = b.decode("utf-8")
     new_user = User(public_id=str(uuid.uuid4()), name=data['name'], password=final_password, admin=True)
     db.session.add(new_user)
     db.session.commit()
