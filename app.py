@@ -245,12 +245,7 @@ def complete_todo(current_user,todo_id):
 def delete_todo(current_user, todo_id):
     return ''
 
-api.add_resource(Store, '/store/<string:name>')
-api.add_resource(StoreList, '/stores')
 
-api.add_resource(Item, '/item/<string:name>')
-api.add_resource(ItemList, '/items')
-api.add_resource(UserRegister, '/register')
 
 # pri spusteni python suboru, python prideli vzdy danemu suboru nazov __main__
 # ostatne subory z ktorych su importovane metody,triedy su oznacene inak
