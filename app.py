@@ -11,6 +11,8 @@ import datetime
 from functools import wraps
 from flask_jwt import JWT
 
+from db import db
+
 from security import authenticate, identity
 
 from resources.user import UserRegister
