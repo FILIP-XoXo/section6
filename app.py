@@ -41,13 +41,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # funkciu vypiname pretoze SQL ALCHEMY samotna kniznica dospinuje vlastnou
 # modifikaciou tracker-u (sledovania)
 # neznemoznuje SQL ALCHEMY spravanie, iba rozsirenie
-app.config['SECRET_KEY'] = 'longcomplicatedsecuritykey'
+app.secret_key = 'longcomplicatedsecuritykey'
 api = Api(app)
 
 # vytvorenie vsetkych tabuliek do suboru data.db pred vykonanim prveho requestu
-
+jwt = JWT(app, authenticate, identity)
 
 class User(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     public_id = db.Column(db.String(50), unique=True)
     name = db.Column(db.String(50))
@@ -55,6 +56,7 @@ class User(db.Model):
     admin = db.Column(db.Boolean)
 
 class Todo(db.Model):
+    __tablename__ = 'todos'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(50))
     complete = db.Column(db.Boolean)
